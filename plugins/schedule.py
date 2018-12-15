@@ -31,6 +31,19 @@ def respond_league_match_schedule(message):
     message.send_webapi('現在と次のガチマッチのスケジュールはこちらです♪', json.dumps(attachments))
 
 
+@respond_to('^ナワバリ$', re.IGNORECASE)
+@respond_to('^レギュラー$', re.IGNORECASE)
+@respond_to('^フェス$', re.IGNORECASE)
+@respond_to('^nawabari$', re.IGNORECASE)
+def respond_regular_match_schedule(message):
+    result = request_schedule("regular")
+    # 現在と次のスケジュールのみ抽出
+    result = result[:4]
+    attachments = make_attachments(result, "ナワバリバトル")
+    message.send_webapi('今後のナワバリバトルのスケジュールはこちらです♪', json.dumps(attachments))
+
+
+
 def request_schedule(match_mode):
     if match_mode not in ["regular", "gachi", "league"]:
         # todo: error handling
